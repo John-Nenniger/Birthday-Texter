@@ -4,5 +4,8 @@
   "description": "A small app that sends me a text the day before my friend's birthdays",
   "main": "app.js",
   "author": "John Paul Nenniger",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "twilio": "^3.11.2"
+  }
 }
