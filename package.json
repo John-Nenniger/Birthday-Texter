@@ -6,6 +6,8 @@
   "author": "John Paul Nenniger",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^5.0.0",
+    "pg": "^7.4.1",
     "twilio": "^3.11.2"
   }
 }
