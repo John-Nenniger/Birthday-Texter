@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "description": "A small app that sends me a text the day before my friend's birthdays",
   "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
   "author": "John Paul Nenniger",
   "license": "MIT",
   "dependencies": {
     "dotenv": "^5.0.0",
+    "knex": "^0.14.2",
     "pg": "^7.4.1",
     "twilio": "^3.11.2"
   }
