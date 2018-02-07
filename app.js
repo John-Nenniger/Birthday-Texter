@@ -4,6 +4,7 @@ const http = require('http');
 const hostname = '127.0.0.1';
 const port = 3000;
 
+
 const knex = require('knex')({
   client: 'pg',
   connection: {
@@ -13,6 +14,20 @@ const knex = require('knex')({
       database : process.env.DB_NAME
   }
 });
+
+const accountSID = process.env.TWILIO_SID
+const authToken = process.env.TWILIO_TOKEN
+
+const client = require('twilio')(accountSID, authToken);
+
+client.messages
+  .create({
+    to: process.env.KEANOS_NUMBER,
+    from: process.env.TWILIO_PHONE,
+    body: 'FEAR THE RISE OF THE MACHINES',
+  })
+  .then(message => console.log(message.sid));
+
 
 
 

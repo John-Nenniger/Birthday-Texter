@@ -1,16 +1,12 @@
-#!/usr/bin/env node
-
-let pg = require('pg');
-
 const accountSID = process.env.TWILIO_SID
 const authToken = process.env.TWILIO_TOKEN
 
-const client = require('twilio')(accountSID, authToken);
+const client = require('twilio')(accountSid, authToken);
 
 client.messages
   .create({
-    to: process.env.KEANOS_NUMBER,
+    to: process.env.JOHNS_NUMBER,
     from: process.env.TWILIO_PHONE,
-    body: 'FEAR THE RISE OF THE MACHINES',
+    body: 'This is the ship that made the Kessel Run in fourteen parsecs?',
   })
   .then(message => console.log(message.sid));
