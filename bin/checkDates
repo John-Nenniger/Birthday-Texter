@@ -1,7 +1,6 @@
 #!/usr/bin/env node
-
+const env = require('dotenv').config();
 let pg = require('pg');
-require('dotenv').config()
 
 const accountSID = process.env.TWILIO_SID
 const authToken = process.env.TWILIO_TOKEN
