@@ -12,21 +12,35 @@ const knex = require('knex')({
       user : process.env.DB_USER,
       password : process.env.DB_PASSWORD,
       database : process.env.DB_NAME
+  },
+  migrations: {
+    tableName: 'migrations'
   }
 });
 
-const accountSID = process.env.TWILIO_SID
-const authToken = process.env.TWILIO_TOKEN
+// knex.schema.createTable('birthdays', (table) => {
+//   table.increments();
+//   table.string('full_name');
+//   table.date('birthday')
+//   table.timestamps()
+// })
 
-const client = require('twilio')(accountSID, authToken);
+// knex.then((val)=>{
+//   console.log(val);
+// })
 
-client.messages
-  .create({
-    to: process.env.KEANOS_NUMBER,
-    from: process.env.TWILIO_PHONE,
-    body: 'FEAR THE RISE OF THE MACHINES',
-  })
-  .then(message => console.log(message.sid));
+// const accountSID = process.env.TWILIO_SID
+// const authToken = process.env.TWILIO_TOKEN
+//
+// const client = require('twilio')(accountSID, authToken);
+//
+// client.messages
+//   .create({
+//     to: process.env.KEANOS_NUMBER,
+//     from: process.env.TWILIO_PHONE,
+//     body: 'FEAR THE RISE OF THE MACHINES',
+//   })
+//   .then(message => console.log(message.sid));
 
 
 

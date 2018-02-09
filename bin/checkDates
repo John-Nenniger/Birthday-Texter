@@ -1,11 +1,13 @@
 #!/usr/bin/env node
-const env = require('dotenv').config();
+
 let pg = require('pg');
 
 const accountSID = process.env.TWILIO_SID
 const authToken = process.env.TWILIO_TOKEN
 
 const client = require('twilio')(accountSID, authToken);
+
+
 
 client.messages
   .create({

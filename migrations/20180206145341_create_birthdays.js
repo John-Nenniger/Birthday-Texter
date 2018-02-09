@@ -1,6 +1,6 @@
 
 exports.up = function(knex, Promise) {
-  knex.schema.createTable('birthdays', (table)=>{
+  knex.schema.createTable('birthdays', (table) => {
     table.increments();
     table.string('full_name');
     table.date('birthday')
