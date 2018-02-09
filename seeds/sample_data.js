@@ -7,7 +7,8 @@ exports.seed = function(knex, Promise) {
       return knex(`birthdays`).insert([
         {id: 1, full_name: 'Papa John', birthday: '1965-04-14'},
         {id: 2, full_name: 'Troy Maclure', birthday: '1954-04-17'},
-        {id: 3, full_name: 'Jean Claude Van Damme', birthday: '1960-10-18'}
+        {id: 3, full_name: 'Jean Claude Van Damme', birthday: '1960-10-18'},
+        {id: 4, full_name: 'John Stamos', birthday: '2018-02-08'}
       ]);
     });
 };

@@ -1,18 +1,34 @@
 #!/usr/bin/env node
-
 let pg = require('pg');
-
+const env = require('dotenv').config();
 const accountSID = process.env.TWILIO_SID
 const authToken = process.env.TWILIO_TOKEN
 
 const client = require('twilio')(accountSID, authToken);
 
+// connect to my database
+const knex = require('knex')({
+  client: 'pg',
+  connection: {
+      host : process.env.DB_HOST,
+      user : process.env.DB_USER,
+      password : process.env.DB_PASSWORD,
+      database : process.env.DB_NAME
+  },
+  migrations: {
+    tableName: 'migrations'
+  }
+});
 
-// format the current date into a query ready string :   yyyy-mm-dd
-let today = new Date();
-let day = today.getDate()
-let month = today.getMonth() + 1;
-let year = today.getFullYear()
+function sendMessage(body){
+  client.messages
+  .create({
+    to: process.env.JOHNS_NUMBER,
+    from: process.env.TWILIO_PHONE,
+    body: body,
+  })
+  .then(message => console.log(message));
+}
 
 function formatDateNumber(num){
   if (num < 10){
@@ -22,17 +38,26 @@ function formatDateNumber(num){
   }
 }
 
+// format the current date into a query ready string :   yyyy-mm-dd
+let today = new Date();
+let day = today.getDate()
+let month = today.getMonth() + 1;
+let year = today.getFullYear()
+
 day = formatDateNumber(day);
 month = formatDateNumber(month);
 year = year.toString();
 
 let date = `${year}-${month}-${day}`
 
-
-client.messages
-  .create({
-    to: process.env.JOHNS_NUMBER,
-    from: process.env.TWILIO_PHONE,
-    body: 'FEAR THE RISE OF THE MACHINES',
+knex('birthdays')
+  .where({birthday: `${date}`})
+  .select()
+  .then(res => {
+    if (res.length > 0){
+      sendMessage(`This is to remind you that it's ${res[0].full_name}'s birthday today!`)
+    }
+  }).then(() => {
+    knex.close()
+    knex.disconnect()
   })
-  .then(message => console.log(message.sid));
