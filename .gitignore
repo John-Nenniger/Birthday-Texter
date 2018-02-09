@@ -2,3 +2,5 @@
 .env
 
 seeds/friends_birthdays.js
+
+friendData.txt

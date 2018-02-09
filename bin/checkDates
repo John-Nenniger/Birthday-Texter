@@ -1,4 +1,11 @@
 #!/usr/bin/env node
+// the above line lets this file be run by node as javascript (despite
+// the lack of .js extension), pretty magical
+
+// This file will be run every day by the Heroku Scheduler Addon.
+// It will check my databases to see if any of my friends have a birthday tomorrow,
+// Then send me a text to remind me about it
+
 let pg = require('pg');
 const env = require('dotenv').config();
 const accountSID = process.env.TWILIO_SID
@@ -6,7 +13,7 @@ const authToken = process.env.TWILIO_TOKEN
 
 const client = require('twilio')(accountSID, authToken);
 
-// connect to my database
+// connect to my database using a CLIENT and the knex node module
 const knex = require('knex')({
   client: 'pg',
   connection: {
@@ -20,6 +27,10 @@ const knex = require('knex')({
   }
 });
 
+// Saving the Twilio send message boilerplate as a function which returns a promise
+// the body is the message that will be sent
+// then log the message sid so that I could reference the text
+// in my twilio account logs if need be
 function sendMessage(body){
   client.messages
   .create({
@@ -27,9 +38,17 @@ function sendMessage(body){
     from: process.env.TWILIO_PHONE,
     body: body,
   })
-  .then(message => console.log(message));
+  .then(message => console.log(`Text successfully sent: ${message.sid}`));
 }
 
+function getAllFullNames(results){
+  let fullNames = ''
+  results.forEach((result) => {
+    fullNames += ` ${result.full_name},`
+  })
+  return fullNames.slice(0, (fullNames.length-1))
+}
+// format the current date into a query ready string: '-mm-dd' (i don't need to check the year for birthdays)
 function formatDateNumber(num){
   if (num < 10){
     return `0${num}`
@@ -38,26 +57,34 @@ function formatDateNumber(num){
   }
 }
 
-// format the current date into a query ready string :   yyyy-mm-dd
 let today = new Date();
-let day = today.getDate()
-let month = today.getMonth() + 1;
-let year = today.getFullYear()
+let day = today.getDate() + 1; // + 1 is
+let month = today.getMonth() + 1; // the +1 here still
 
 day = formatDateNumber(day);
 month = formatDateNumber(month);
-year = year.toString();
-
-let date = `${year}-${month}-${day}`
+let date = `-${month}-${day}`
 
 knex('birthdays')
-  .where({birthday: `${date}`})
-  .select()
+  // So the raw clause below is not great, I think it has to convert every line of my
+  // table to a string (from a Date) during the query, which seems ineffecient
+  // What I should have done is saved the birthdates as strings in the first place,
+  // so they woul be easy to compare, but oh well, this works too
+
+  .where(knex.raw(`CAST(birthday AS TEXT) LIKE '____${date}'`))
+  .select()  // default to SELECT * when no argument is given
+  .catch((e) => console.log(e))
   .then(res => {
-    if (res.length > 0){
-      sendMessage(`This is to remind you that it's ${res[0].full_name}'s birthday today!`)
-    }
+    // results will be in the form: [{full_name: '', birthday: date, id: integer}, {ect.}]
+    // IF there is one birthday tomorrow: send me a text
+    if (res.length === 1){
+      sendMessage(`This is to remind you that it's ${res[0].full_name}'s birthday tommorow!`)
+    // ELSE IF There is more than one birthday tomorrow: send me a text with all of their names
+    } else if (res.length > 1){
+      const allNames = getAllFullNames(res)
+      // ^ stick all their names together in a string
+      sendMessage(`These people all have birthdays tomorrow: ${allNames}`)
+    } else {console.log('No Friends birthdays tomorrow')}
   }).then(() => {
-    knex.close()
     knex.disconnect()
   })

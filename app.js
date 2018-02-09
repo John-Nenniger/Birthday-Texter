@@ -1,36 +1,13 @@
+// This file just runs a simple http server to serve get requests (to keep the
+// app from crashing).  The important part of this app is found in bin/checkDates
+
 const env = require('dotenv').config();
+// the above line brings in environment vaiables for development from a .env file
+// that is ignored by git.
 
 const http = require('http');
 const hostname = process.env.HOST_NAME;
 const port = process.env.PORT;
-
-
-// knex.schema.createTable('birthdays', (table) => {
-//   table.increments();
-//   table.string('full_name');
-//   table.date('birthday')
-//   table.timestamps()
-// })
-
-// knex.then((val)=>{
-//   console.log(val);
-// })
-
-// const accountSID = process.env.TWILIO_SID
-// const authToken = process.env.TWILIO_TOKEN
-//
-// const client = require('twilio')(accountSID, authToken);
-//
-// client.messages
-//   .create({
-//     to: process.env.KEANOS_NUMBER,
-//     from: process.env.TWILIO_PHONE,
-//     body: 'FEAR THE RISE OF THE MACHINES',
-//   })
-//   .then(message => console.log(message.sid));
-
-
-
 
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
