@@ -8,6 +8,26 @@ const authToken = process.env.TWILIO_TOKEN
 const client = require('twilio')(accountSID, authToken);
 
 
+// format the current date into a query ready string :   yyyy-mm-dd
+let today = new Date();
+let day = today.getDate()
+let month = today.getMonth() + 1;
+let year = today.getFullYear()
+
+function formatDateNumber(num){
+  if (num < 10){
+    return `0${num}`
+  } else {
+    return num.toString()
+  }
+}
+
+day = formatDateNumber(day);
+month = formatDateNumber(month);
+year = year.toString();
+
+let date = `${year}-${month}-${day}`
+
 
 client.messages
   .create({

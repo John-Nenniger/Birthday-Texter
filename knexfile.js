@@ -1,4 +1,8 @@
-// Update with your config settings.
+
+// I need env here so that process.env.WHATEVER is defined
+// otherwise the migration goes through but essentially fails silently
+
+const env = require('dotenv').config();
 
 module.exports = {
   development: {
