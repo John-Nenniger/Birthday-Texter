@@ -1,22 +1,9 @@
 const env = require('dotenv').config();
 
 const http = require('http');
-const hostname = '127.0.0.1';
-const port = 3000;
+const hostname = process.env.HOST_NAME;
+const port = process.env.PORT;
 
-
-const knex = require('knex')({
-  client: 'pg',
-  connection: {
-      host : process.env.DB_HOST,
-      user : process.env.DB_USER,
-      password : process.env.DB_PASSWORD,
-      database : process.env.DB_NAME
-  },
-  migrations: {
-    tableName: 'migrations'
-  }
-});
 
 // knex.schema.createTable('birthdays', (table) => {
 //   table.increments();
