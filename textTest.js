@@ -1,3 +1,6 @@
+// Just an example of all that's needed to send a text message,
+// used for testing
+
 const accountSID = process.env.TWILIO_SID
 const authToken = process.env.TWILIO_TOKEN
 

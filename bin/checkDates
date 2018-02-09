@@ -70,7 +70,6 @@ knex('birthdays')
   // table to a string (from a Date) during the query, which seems ineffecient
   // What I should have done is saved the birthdates as strings in the first place,
   // so they woul be easy to compare, but oh well, this works too
-
   .where(knex.raw(`CAST(birthday AS TEXT) LIKE '____${date}'`))
   .select()  // default to SELECT * when no argument is given
   .catch((e) => console.log(e))
@@ -84,7 +83,12 @@ knex('birthdays')
       const allNames = getAllFullNames(res)
       // ^ stick all their names together in a string
       sendMessage(`These people all have birthdays tomorrow: ${allNames}`)
-    } else {console.log('No Friends birthdays tomorrow')}
+      // ELSE there aren't any birthdays tomorrow, no need to text.
+    } else {
+      console.log('No Friends birthdays tomorrow')
+    }
   }).then(() => {
-    knex.disconnect()
+    // I need to run this or the program continues to run until
+    // Heroku would eventually terminate it.  This way it finishes very quickly
+    knex.destroy()
   })
