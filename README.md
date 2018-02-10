@@ -5,8 +5,7 @@ A server that sends me text messages the day before a friend's birthday with Twi
 I often have my facebook account disabled, but I also have a hard time remebering my friend's birthdays,
 so i built this simple server to text me the day before any of my friends or families B-days.
 
-The heroku Scheduler addon runs 'node bin/checkDates' once a day, which compares the date tomorrow with the dates of my friends,
-which are stored in a postgres database (also on Heroku).
+The heroku Scheduler addon runs 'node bin/checkDates' once a day, which compares the date tomorrow with the dates of my friends,  which are stored in a postgres database (also on Heroku).
 
 To see how it works check out bin/checkDates, which is heavily commented.
 
@@ -23,18 +22,18 @@ try to run this yourself locally, but if you want to:
 
 add these things to your .env file:
 
-PORT=3000 \n
-HOST_NAME=127.0.0.1 \n
+PORT=3000   
+HOST_NAME=127.0.0.1  
 
-DB_HOST=localhost \n
-DB_NAME=Whatever you like (birthdaytexter) \n
-DB_USER= your db user \n
-DB_PASSWORD= Whatever your local password is \n
+DB_HOST=localhost   
+DB_NAME=Whatever you like (birthdaytexter)   
+DB_USER= your db user  
+DB_PASSWORD= Whatever your local password is  
 
-TWILIO_SID=find this in your newly created twilio account \n
-TWILIO_TOKEN=this too  \n
-TWILIO_PHONE=this as well, though you actually need to pick a number yourself first  \n
-JOHNS_NUMBER=This is where you should put your personal number (the one that will recieve the texts)  \n
+TWILIO_SID=find this in your newly created twilio account  
+TWILIO_TOKEN=this too   
+TWILIO_PHONE=this as well, though you actually need to pick a number yourself first   
+JOHNS_NUMBER=This is where you should put your personal number (the one that will recieve the texts)   
 
 6) Create a local pg database called whatever you put as DB_NAME  
 
