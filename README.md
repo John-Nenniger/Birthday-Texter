@@ -23,20 +23,20 @@ try to run this yourself locally, but if you want to:
 
 add these things to your .env file:
 
-PORT=3000
-HOST_NAME=127.0.0.1
+PORT=3000 \n
+HOST_NAME=127.0.0.1 \n
 
-DB_HOST=localhost
-DB_NAME=Whatever you like (birthdaytexter)
-DB_USER= your db user
-DB_PASSWORD=
+DB_HOST=localhost \n
+DB_NAME=Whatever you like (birthdaytexter) \n
+DB_USER= your db user \n
+DB_PASSWORD= Whatever your local password is \n
 
-TWILIO_SID=find this in your newly created twilio account
-TWILIO_TOKEN=this too
-TWILIO_PHONE=this as well, though you actually need to pick a number yourself first
-JOHNS_NUMBER=This is where you should put your personal number (the one that will recieve the texts)
+TWILIO_SID=find this in your newly created twilio account \n
+TWILIO_TOKEN=this too  \n
+TWILIO_PHONE=this as well, though you actually need to pick a number yourself first  \n
+JOHNS_NUMBER=This is where you should put your personal number (the one that will recieve the texts)  \n
 
-6) Create a local pg database called whatever you put as DB_NAME
+6) Create a local pg database called whatever you put as DB_NAME  
 
 7) run knex migrate:latest
 
