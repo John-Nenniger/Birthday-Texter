@@ -46,7 +46,7 @@ function getAllFullNames(results){
   results.forEach((result) => {
     fullNames += ` ${result.full_name},`
   })
-  return fullNames.slice(0, (fullNames.length-1))
+  return fullNames.slice(0, (fullNames.length - 1))
 }
 // format the current date into a query ready string: '-mm-dd' (i don't need to check the year for birthdays)
 function formatDateNumber(num){
